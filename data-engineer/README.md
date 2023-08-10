@@ -7,7 +7,7 @@ A company collects event updates from various sources and stores them as sharded
 ## Task Hints
 Below are some guidelines that can serve as hints but feel free to diverge from the suggestions below. Feel free to use any Python library that is available to the ecosystem to help with this task.
 
-1. **Reading from S3**: Create a function `read_files_from_dir(dir: str) -> List[str]` that reads all the XML files from a specified S3 bucket and prefix (folder). The function should return a list of XML contents as strings.
+1. **Reading from Directory**: Create a function `read_files_from_dir(dir: str) -> List[str]` that reads all the XML files from a specified directory and prefix (folder). The function should return a list of XML contents as strings.
 
 2. **Parsing XML Files**: Create a function `parse_xml(files: List[str]) -> pd.DataFrame` that takes the XML content and parses them into a DataFrame. The XML files contain the following structure:
 
@@ -27,11 +27,11 @@ Below are some guidelines that can serve as hints but feel free to diverge from 
 </event>
 ```
 
-3. **Windowing by Date_Time**: Implement a function `window_by_datetime(data: pd.DataFrame, window: str) -> Dict[str, pd.DataFrame]` that takes the DataFrame and a window parameter (e.g., '1D' for 1 day) and groups the data by the specified window based on the `date_time` column. The function should return a dictionary with keys as window identifiers and values as DataFrames for each window.
+3. *Windowing by Date_Time to Get Latest Event:* Implement a function `window_by_datetime(data: pd.DataFrame, window: str) -> Dict[str, pd.DataFrame]` that takes the DataFrame and a window parameter (e.g., '1D' for 1 day) and groups the data by the specified window based on the `date_time` column to get the latest event for the correct updates. The function should return a dictionary with keys as window identifiers and values as DataFrames for each window.
 
 4. **Processing into Structured RO Format**: Write a function `process_to_RO(data: Dict[str, pd.DataFrame]) -> List[RO]` that takes the windowed data and transforms it into a structured RO format, defining the RO class as needed.
 
-5. **Integration**: Combine these functions into a single pipeline script that reads from a specified directory, parses the XML files, windows the data by date_time, and processes them into the structured RO format, and then writes the output to a SQLite database.
+5. **Integration**: Combine these functions into a single pipeline script that reads from a specified directory, parses the XML files, windows the data by `date_time`, and processes them into the structured RO format, and then writes the output to a SQLite database.
 
 6. **Testing**: Write test cases to validate that each part of the pipeline works as intended.
 
