@@ -2,7 +2,7 @@
 
 ## Background
 
-A company collects event updates from various sources and stores them as sharded XML files in an Amazon S3 bucket. These updates contain information about repair orders (RO) and are organized by date and time. The company wants to build a Python pipeline to read these files, window them based on a date_time attribute, and process them into a structured RO format that is later stored in a SQLite database.
+A company collects event updates from various sources and stores them as sharded XML files in a predefined directory. These updates contain information about repair orders (RO) and are organized by date and time. The company wants to build a Python pipeline to read these files, window them based on a date_time attribute, and process them into a structured RO format that is later stored in a SQLite database.
 
 ## Task Hints
 Below are some guidelines that can serve as hints but feel free to diverge from the suggestions below. Feel free to use any Python library that is available to the ecosystem to help with this task.
