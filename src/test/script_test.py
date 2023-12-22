@@ -1,10 +1,13 @@
+import sys
+
 from src.lib.sql.sql_file_reader import SqlFileReader
 from src.test.data.clean_repair_order import DataCRO
 from src.test.data.latest_repair_order import DataLRO
 from src.test.data.ranked_repair_order import DataRRO
 from src.test.data.repair_order_event import DataROE
-import sys
-sys.path.append('/home/glue_user/workspace/src')
+
+sys.path.append("/home/glue_user/workspace/src")
+
 
 def test_clean_repair_order(spark_session):
     # Arrange

@@ -2,19 +2,41 @@ from pyspark.sql import SparkSession
 
 from lib.sql.sql_file_reader import SqlFileReader
 from lib.tables.repair_order import RepairOrder
+from lib.utils.argument_parser import ArgumentParser
 from lib.utils.logger import Logger
 
 
 class DynatronSoftware(object):
     logger = Logger()
     logger.start("JOB")
+    known_arguments, unknown_arguments = ArgumentParser().get_arguments()
     sql_file_reader = SqlFileReader()
 
     # Job instantiation
     logger.start("CREATE SPARK SESSION")
     spark = SparkSession.builder.getOrCreate()
     logger.finish("CREATE SPARK SESSION")
-    logger.job_info(spark=spark)
+    logger.job_info(
+        spark=spark,
+        known_arguments=known_arguments,
+        unknown_arguments=unknown_arguments,
+    )
+
+    # validate rank field
+    rank_field = known_arguments["rank_field"]
+    possible_fields = [
+        "cost",
+        "date_time",
+        "order_id",
+        "repair_details.technician",
+        "repair_details.repair_parts.part._name",
+        "repair_details.repair_parts.part._quantity",
+        "status",
+    ]
+    if rank_field not in possible_fields:
+        logger.error(
+            f"INVALID rank_field:{rank_field} | VALID rank_field:{possible_fields}"
+        )
 
     # Extract
     logger.start(message="Extract")
@@ -36,7 +58,10 @@ class DynatronSoftware(object):
         {"file_name": "clean_repair_order", "substitutions": None},
         {
             "file_name": "ranked_repair_order",
-            "substitutions": {"partition_by": "order_id", "order_by": "date_time"},
+            "substitutions": {
+                "partition_by": known_arguments["rank_field"],
+                "order_by": "date_time",
+            },
         },
         {"file_name": "latest_repair_order", "substitutions": None},
     ]

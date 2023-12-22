@@ -1,3 +1,5 @@
+EXPECTED_PYTHON_VERSION="Python 3.10.3"
+CURRENT_PYTHON_VERION="$(shell python --version)"
 SPARK_IMAGE_NAME=dynatron_spark
 SPARK_DOCKER_FILE_NAME=DockerfileSpark
 CURRENT_DIR = $(shell pwd)
@@ -6,6 +8,7 @@ SPARK_XML_VERSION=0.17.0
 SPARK_XML_URL=https://repo1.maven.org/maven2/com/databricks/spark-xml_$(SCALA_VERSION)/$(SPARK_XML_VERSION)/spark-xml_$(SCALA_VERSION)-$(SPARK_XML_VERSION).jar
 SQLITE_VERSION=3.44.1.0
 SQLITE_URL=https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/$(SQLITE_VERSION)/sqlite-jdbc-$(SQLITE_VERSION).jar
+RANK_FIELD=order_id
 
 
 .PHONY: default help
@@ -62,6 +65,7 @@ run: ## run script
 		--name glue_spark_submit $(SPARK_IMAGE_NAME) spark-submit \
 			--jars /home/glue_user/workspace/src/jars/spark-xml_$(SCALA_VERSION)-$(SPARK_XML_VERSION).jar,/home/glue_user/workspace/src/jars/sqlite-jdbc-$(SQLITE_VERSION).jar \
 			/home/glue_user/workspace/src/script.py \
+			--rank-field $(RANK_FIELD) \
 			2>&1 || true  
 
 .PHONY: bash

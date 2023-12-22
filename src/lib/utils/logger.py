@@ -4,6 +4,8 @@ from platform import python_version
 from pprint import pformat
 from sys import stdout
 
+from pyspark.sql import SparkSession
+
 logger = logging.getLogger(__name__)
 stdout_handler = logging.StreamHandler(stream=stdout)
 formatter = logging.Formatter(
@@ -32,7 +34,12 @@ class Logger:
     def finish(self, message: str) -> None:
         logger.info(f"FINISHED: {message}")
 
-    def job_info(self, spark) -> None:
+    def error(self, message: str) -> None:
+        logger.info(f"ERROR: {message}")
+
+    def job_info(
+        self, spark: SparkSession, known_arguments: dict, unknown_arguments: dict
+    ) -> None:
         self.start("JOB INFO")
         py_version = python_version()
         self.info(f"Python Version: {py_version}")
@@ -57,4 +64,16 @@ class Logger:
             ascii_configuration[ascii_key] = ascii_value
         formatted_configuration = pformat(ascii_configuration, indent=2)
         self.info(f"Spark Configuration:\n{formatted_configuration}")
+        known_arguments = pformat(known_arguments, indent=2)
+        unknown_arguments = ", ".join(unknown_arguments)
+        self.info(
+            "Known Arguments:\n{known_arguments}".format(
+                known_arguments=known_arguments
+            )
+        )
+        self.info(
+            "Unknown Arguments:\n{unknown_arguments}".format(
+                unknown_arguments=unknown_arguments
+            )
+        )
         self.finish("JOB INFO")
