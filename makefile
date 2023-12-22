@@ -1,8 +1,13 @@
+SHELL:=/usr/bin/env bash -O extglob -O globstar -o pipefail
 EXPECTED_PYTHON_VERSION="Python 3.10.3"
 CURRENT_PYTHON_VERION="$(shell python --version)"
+CURRENT_DIR = $(shell pwd)
+
+# Docker Images
 SPARK_IMAGE_NAME=dynatron_spark
 SPARK_DOCKER_FILE_NAME=DockerfileSpark
-CURRENT_DIR = $(shell pwd)
+
+# Jar Packages
 SCALA_VERSION=2.12
 SPARK_XML_VERSION=0.17.0
 SPARK_XML_URL=https://repo1.maven.org/maven2/com/databricks/spark-xml_$(SCALA_VERSION)/$(SPARK_XML_VERSION)/spark-xml_$(SCALA_VERSION)-$(SPARK_XML_VERSION).jar
