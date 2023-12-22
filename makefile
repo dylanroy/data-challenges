@@ -10,7 +10,6 @@ SQLITE_VERSION=3.44.1.0
 SQLITE_URL=https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/$(SQLITE_VERSION)/sqlite-jdbc-$(SQLITE_VERSION).jar
 RANK_FIELD=order_id
 
-
 .PHONY: default help
 default help: ## show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
@@ -35,7 +34,6 @@ format: ## format python code
 	pylint src/
 	@echo 'Sqlfmt has started..'
 	sqlfmt src/lib/sql/query/
-
 
 .PHONY: verify-format
 verify-format: ## validate sql & jinja format
