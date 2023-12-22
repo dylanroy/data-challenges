@@ -24,7 +24,26 @@ get-jars: ## download jar dependencies
 
 .PHONY: format
 format: ## format python code
-	black . --exclude="tables/|data/"
+	@echo 'Black format python files has started..'
+	black src/ 
+	@echo 'Isort python files has started..'
+	isort src/
+	@echo 'Pylint has started..'
+	pylint src/
+	@echo 'Sqlfmt has started..'
+	sqlfmt src/lib/sql/query/
+
+
+.PHONY: verify-format
+verify-format: ## validate sql & jinja format
+	@echo 'Validating Black format python files has started..'
+	black src/ --check
+	@echo 'Validating Isort python files has started..'
+	isort src/ --check
+	@echo 'Validating Pylint has started..'
+	pylint src/
+	@echo 'Validating Sqlfmt has started..'
+	sqlfmt src/lib/sql/query/ --check
 
 .PHONY: build
 build: ## build docker image
@@ -68,5 +87,5 @@ test: ## run unit tests
 		--rm -p 4040:4040 \
 		-p 18080:18080 \
 		--name glue_pytest $(SPARK_IMAGE_NAME) \
-			-c "python3 -m pytest /home/glue_user/workspace/src/test/ -vvv"
+			-c "python3 -m pytest /home/glue_user/workspace/src/ -vvv"
 			

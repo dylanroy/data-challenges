@@ -1,6 +1,7 @@
 from os import getcwd
 from os.path import join
-from lib.utils.logger import Logger
+
+from ..utils.logger import Logger
 
 
 class SqlFileReader:

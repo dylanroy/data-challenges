@@ -1,1 +1,6 @@
+# lint
 black
+isort
+pylint
+# sql
+shandy-sqlfmt

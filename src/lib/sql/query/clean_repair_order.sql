@@ -1,9 +1,3 @@
-SELECT
-    cost,
-    date_time,
-    order_id,
-    repair_details,
-    status
-FROM
-    repair_order_event
-WHERE _corrupt_record IS NULL
+select cost, date_time, order_id, repair_details, status
+from repair_order_event
+where _corrupt_record is null

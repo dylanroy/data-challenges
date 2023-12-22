@@ -1,0 +1,26 @@
+[tool.black]
+line-length = 88
+exclude = '''/(
+      tables
+    | data
+    |(\.sql$)
+)/'''
+
+
+[tool.pylint]
+ignore = "tests/data/*,__pycache__"
+
+[tool.pylint.messages_control]
+disable = [
+    "C0114",  # Missing module docstring
+    "C0115",  # Missing class docstring
+    "C0116",  # Missing function or method docstring
+    "invalid-name","missing-docstring","too-few-public-methods","no-member",
+    "R0801","E0401","W0611","R0913","W0201","W0622","C0301","W0613","R0914",
+    "W1514","R0205","C0209","R0205","W0612","R0915", "W0511","W1203","W0212",
+    "W0621"
+    ]
+
+[tool.isort]
+profile = "black"
+line_length = 88

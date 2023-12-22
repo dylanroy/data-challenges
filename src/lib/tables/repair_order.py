@@ -1,9 +1,9 @@
 from pyspark.sql.types import (
-    StructType,
-    StructField,
-    StringType,
     DoubleType,
     IntegerType,
+    StringType,
+    StructField,
+    StructType,
     TimestampType,
 )
 
@@ -21,12 +21,12 @@ class RepairOrder:
             StructField(name="date_time",           dataType=TimestampType()),
             StructField(name="status",              dataType=StringType()),
             StructField(name="cost",                dataType=DoubleType()),
-            StructField(name="repair_details",      
+            StructField(name="repair_details",
                 dataType=StructType(fields=[
                     StructField(name="technician",  dataType=StringType()),
-                    StructField(name="repair_parts",    
+                    StructField(name="repair_parts",
                         dataType=StructType(fields=[
-                            StructField(name="part",        
+                            StructField(name="part",
                                 dataType=StructType(fields=[
                                     StructField(name="_name",   dataType=StringType(), nullable=False, metadata={"xmlname": "name"}),
                                     StructField(name="_quantity", dataType=IntegerType(), nullable=False, metadata={"xmlname": "quantity"}),

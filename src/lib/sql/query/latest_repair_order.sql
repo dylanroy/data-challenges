@@ -1,4 +1,4 @@
-SELECT
+select
     cost,
     date_time,
     order_id,
@@ -6,6 +6,5 @@ SELECT
     repair_details.repair_parts.part._name as part_name,
     repair_details.repair_parts.part._quantity as part_quantity,
     status
-FROM
-    ranked_repair_order
-WHERE rank = 1
+from ranked_repair_order
+where rank = 1

@@ -1,7 +1,8 @@
 from pyspark.sql import SparkSession
-from lib.utils.logger import Logger
+
 from lib.sql.sql_file_reader import SqlFileReader
 from lib.tables.repair_order import RepairOrder
+from lib.utils.logger import Logger
 
 
 class DynatronSoftware(object):
@@ -35,7 +36,7 @@ class DynatronSoftware(object):
         {"file_name": "clean_repair_order", "substitutions": None},
         {
             "file_name": "ranked_repair_order",
-            "substitutions": {"PARTITION_BY": "order_id", "ORDER_BY": "date_time"},
+            "substitutions": {"partition_by": "order_id", "order_by": "date_time"},
         },
         {"file_name": "latest_repair_order", "substitutions": None},
     ]

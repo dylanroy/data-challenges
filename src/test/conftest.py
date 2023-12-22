@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 from pytest import fixture
-import logging
 
 
 @fixture(scope="session")
@@ -16,7 +17,6 @@ def spark_context(request):
         )
     )
     spark_context = SparkContext(conf=spark_conf)
-    request.addfinalizer(lambda: spark_context.stop())
     logger = logging.getLogger("py4j")
     logger.setLevel(logging.WARN)
     return spark_context

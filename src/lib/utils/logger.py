@@ -1,8 +1,8 @@
-from platform import python_version
-from sys import stdout
-from pprint import pformat
 import logging
 import time
+from platform import python_version
+from pprint import pformat
+from sys import stdout
 
 logger = logging.getLogger(__name__)
 stdout_handler = logging.StreamHandler(stream=stdout)

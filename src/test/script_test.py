@@ -1,9 +1,10 @@
-from test.data.repair_order_event import DataROE
-from test.data.clean_repair_order import DataCRO
-from test.data.ranked_repair_order import DataRRO
-from test.data.latest_repair_order import DataLRO
-from lib.sql.sql_file_reader import SqlFileReader
-
+from src.lib.sql.sql_file_reader import SqlFileReader
+from src.test.data.clean_repair_order import DataCRO
+from src.test.data.latest_repair_order import DataLRO
+from src.test.data.ranked_repair_order import DataRRO
+from src.test.data.repair_order_event import DataROE
+import sys
+sys.path.append('/home/glue_user/workspace/src')
 
 def test_clean_repair_order(spark_session):
     # Arrange
@@ -19,16 +20,19 @@ def test_clean_repair_order(spark_session):
     # Assert
     assert 12 == actual_count
 
+
 def test_ranked_repair_order_by_order_id(spark_session):
     # Arrange
     clean_repair_order = DataCRO.clean_repair_order(spark_session=spark_session)
     clean_repair_order.createTempView("clean_repair_order")
-    ranked_repair_order = DataRRO.ranked_repair_order_by_order_id(spark_session=spark_session)
+    ranked_repair_order = DataRRO.ranked_repair_order_by_order_id(
+        spark_session=spark_session
+    )
 
     # Act
     query = SqlFileReader().get_sql_query(
-        file_name="ranked_repair_order.sql", 
-        substitutions={"PARTITION_BY": "order_id", "ORDER_BY": "date_time"}
+        file_name="ranked_repair_order.sql",
+        substitutions={"partition_by": "order_id", "order_by": "date_time"},
     )
     actual_data_frame = spark_session.sql(sqlQuery=query)
     actual_count = ranked_repair_order.intersect(actual_data_frame).count()
@@ -36,16 +40,19 @@ def test_ranked_repair_order_by_order_id(spark_session):
     # Assert
     assert 12 == actual_count
 
+
 def test_latest_repair_order_by_order_id(spark_session):
     # Arrange
-    ranked_repair_order = DataRRO.ranked_repair_order_by_order_id(spark_session=spark_session)
+    ranked_repair_order = DataRRO.ranked_repair_order_by_order_id(
+        spark_session=spark_session
+    )
     ranked_repair_order.createTempView("ranked_repair_order")
-    latest_repair_order = DataLRO.ranked_repair_order_by_order_id(spark_session=spark_session)
+    latest_repair_order = DataLRO.ranked_repair_order_by_order_id(
+        spark_session=spark_session
+    )
 
     # Act
-    query = SqlFileReader().get_sql_query(
-        file_name="latest_repair_order.sql"
-    )
+    query = SqlFileReader().get_sql_query(file_name="latest_repair_order.sql")
     actual_data_frame = spark_session.sql(sqlQuery=query)
 
     actual_count = latest_repair_order.intersect(actual_data_frame).count()
