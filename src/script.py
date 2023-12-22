@@ -35,8 +35,9 @@ class DynatronSoftware(object):
     ]
     if rank_field not in possible_fields:
         logger.error(
-            f"INVALID rank_field:{rank_field} | VALID rank_field:{possible_fields}"
+            f"VALID rank_field: {possible_fields}"
         )
+        raise ValueError(f"rank_field: {rank_field}")
 
     # Extract
     logger.start(message="Extract")

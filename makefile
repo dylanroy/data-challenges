@@ -54,7 +54,7 @@ build: ## build docker image
 	docker build --compress --tag $(SPARK_IMAGE_NAME) --file $(SPARK_DOCKER_FILE_NAME) . 
 
 .PHONY: run
-run: ## run script
+run: ## run script | make run RANK_FIELD=["cost"|"date_time"|"order_id"|"repair_details.technician"|"repair_details.repair_parts.part._name"|"repair_details.repair_parts.part._quantity"|"status"]
 	docker run -it -v $(CURRENT_DIR)/.aws:/home/glue_user/.aws \
 		-v $(CURRENT_DIR):/home/glue_user/workspace/ \
 		-v $(CURRENT_DIR)/data-engineer/data:/root/data \
